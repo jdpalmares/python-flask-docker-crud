@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: app
+    image: python_flask_docker_crud:1.0.0
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgredb:5432/postgres
+    depends_on:
+      - postgredb
+  postgredb:
+    container_name: postgredb
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
